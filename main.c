@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <conio.h>
+#include <conio2.h>
 
 struct btreenode
 {
@@ -8,17 +8,18 @@ struct btreenode
     struct btreenode *rightchild ;
 } ;
 
-void insert ( struct btreenode **, int ) ;
-void inorder ( struct btreenode * ) ;
+void kanan ( struct btreenode **, int ) ;
+void kiri ( struct btreenode * ) ;
 
 int main(int argc, char *argv[])
 {
     struct btreenode *bt ;
-    int wortel = 1;
-    int kelinci = 3;
-    int singa = 2;
+    int rumput = 1;
+    int kambing = 3;
+    int serigala = 2;
     int pemburu = 4;
-    int arr[4] = { wortel, kelinci, singa, pemburu } ;//urutan karakter dalam game
+    int arrnull[4] = { 0,0,0,0 };
+    int arr[4] = { rumput, kambing, serigala, pemburu } ;//urutan karakter dalam game
     int i ;
 
     bt = NULL ;
@@ -26,22 +27,35 @@ int main(int argc, char *argv[])
     system("cls");
 
     printf ( "RIVER CROSSING\n" ) ;
+    
+    //sebelum dimulai
+    printf ( "\n\nSisi Kiri :\n" ) ;
+    for ( i = 0 ; i <= 3 ; i++ ){
+        gotoxy(1+(i*5),5);printf ( "%d", arrnull[i] ) ;
+    }
 
-    printf ( "\nSisi Kanan :\n" ) ;
-    for ( i = 0 ; i <= 3 ; i++ )
-        printf ( "%d\t", arr[i] ) ;
+    gotoxy(25,4);printf ( "Sisi Kanan :" ) ;
+    for ( i = 0 ; i <= 3 ; i++ ){
+        gotoxy(25+(i*5),5);printf ( "%d", arr[i] ) ;
+    }
 
+    //setelah selesai
     for ( i = 0 ; i <= 3 ; i++ )
-        insert ( &bt, arr[i] ) ;
+        kanan ( &bt, arr[i] ) ;
 
     printf ( "\n\nSisi Kiri :\n" ) ;
-    inorder ( bt ) ;
+    gotoxy(1,8);kiri ( bt ) ;
 
+    gotoxy(25,7);printf ( "Sisi Kanan :" ) ;
+    for ( i = 0 ; i <= 3 ; i++ ){
+        gotoxy(25+(i*5),8);printf ( "%d", arrnull[i] ) ;
+    }
+    
     getch( ) ;	
     return 0;
 }
 
-void insert ( struct btreenode **sr, int num )
+void kanan ( struct btreenode **sr, int num )
 {
     if ( *sr == NULL )
     {
@@ -54,18 +68,18 @@ void insert ( struct btreenode **sr, int num )
     else
     {
         if ( num < ( *sr ) -> data )
-            insert ( &( ( *sr ) -> leftchild ), num ) ;
+            kanan ( &( ( *sr ) -> leftchild ), num ) ;
         else
-            insert ( &( ( *sr ) -> rightchild ), num ) ;
+            kanan ( &( ( *sr ) -> rightchild ), num ) ;
     }
 }
 
-void inorder ( struct btreenode *sr )
+void kiri ( struct btreenode *sr )
 {
     if ( sr != NULL )
     {
-        inorder ( sr -> leftchild ) ;
-        printf ( "%d\t", sr -> data ) ;
-        inorder ( sr -> rightchild ) ;
+        kiri ( sr -> leftchild ) ;
+        printf ( "%d    ", sr -> data ) ;
+        kiri ( sr -> rightchild ) ;
     }
 }
